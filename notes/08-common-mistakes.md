@@ -1,0 +1,46 @@
+# 08 易错点速查与自测
+
+| 常见错误 | 正确理解 |
+| --- | --- |
+| 不声明类型就直接使用 a | 先 `int a;`，之后赋值不再写 int |
+| `double avg = sum / n;` | 右侧仍可能整数除法；用 `(double) sum / n` |
+| `a + ' ' + b` | 字符空格可能参与数值运算；用 `a + " " + b` |
+| `str == "abc"` | 比较内容用 `str.equals("abc")` |
+| `array.length()` | 数组用 length 属性；String 用 length() |
+| 循环写成 `i <= a.length` | 最后一次越界；用 `i < a.length` |
+| `int[] b = a;` 当作复制 | 两个变量引用同一数组 |
+| for-each 中给 value 赋值 | 不会替换原数组元素 |
+| 最小值从 0 开始 | 非空数组通常从第一个元素开始 |
+| nextInt 后直接 nextLine | 可能读到行尾剩余内容 |
+| catch 不消费错误输入 | 下一轮可能再次遇到同一个 token |
+| 空行 split 后长度为 1，就认为有效 | 先 trim 并检查 isEmpty |
+| 输入 `3.0` 期待 nextInt 接收 | 数学整数与整数格式输入不同 |
+| `True` / `FALSE` | Java 只认小写 true / false |
+| 输入正确也打印 Invalid input | 报错应只在验证失败的路径发生 |
+| 每个学生循环里都输出科目平均值 | 先统计完全部学生，再输出 |
+| 二维数组只复制外层就算完全独立 | 内层行仍可能共享 |
+
+## 自测
+
+先自己预测，再看答案：
+
+1. `double x = 9 / 2;` 得到什么？
+2. `"sum=" + 1 + 2` 输出什么？
+3. `"Hello".substring(1, 4)` 得到什么？
+4. 长度 5 的数组最后一个下标是多少？
+5. `nextInt()` 遇到 abc 后，为什么 catch 中需要 next 或 nextLine？
+6. 统计第 j 门课时，scores[i][j] 的 i 应遍历什么？
+7. `int[] b = a;` 后修改 b[0]，a[0] 会变吗？
+
+<details>
+<summary>答案</summary>
+
+1. 4.0：先做整数除法。
+2. sum=12。
+3. ell。
+4. 4。
+5. 失败的 token 还在输入流中，需要消费它。
+6. 全部学生。
+7. 会，两者共享同一个数组。
+
+</details>
