@@ -59,9 +59,28 @@ b[0] = new int[2];
 ## 二维数组复制与输出
 
 `int[][] b = a;` 共享整个数组。
-只用 `Arrays.copyOf(a, a.length)` 复制外层数组，内层各行仍共享。
+只用 `Arrays.copyOf(a, a.length)` 会创建一个新的外层数组，但只是把每个内层行的引用复制过去，因此内层各行仍共享。这叫浅拷贝。
 
-对非 null 的 int 行逐行复制：
+```java
+int[][] a = {{1, 2}, {3}};
+int[][] b = java.util.Arrays.copyOf(a, a.length);
+
+b[0][1] = 9;
+b[1] = new int[] {7, 8};
+
+System.out.println(a[0][1] + " " + a[1].length); // 9 1
+```
+
+关键是区分“修改行里的元素”和“替换外层数组保存的行引用”：
+
+- 复制刚完成时，`a != b`，因为外层数组已经不同。
+- 但 `a[0] == b[0]`、`a[1] == b[1]`，因为两边起初指向相同的两行。
+- `b[0][1] = 9` 修改的是双方共享的第 0 行对象，所以 `a[0][1]` 也变成 9。
+- `b[1] = new int[] {7, 8}` 只把新行引用放进 `b` 的第 1 个槽位；`a[1]` 仍指向原来的 `{3}`，所以长度仍是 1。
+
+并不是“只有 1 和 9 被共享”：浅拷贝后，原来的每个内层行对象都被共享。某一边替换自己的行引用后，那一个外层槽位才不再指向同一行。
+
+对非 null 的 int 行逐行复制，才能得到互不影响的深拷贝：
 
 ```java
 int[][] copy = new int[a.length][];
@@ -71,7 +90,13 @@ for (int i = 0; i < a.length; i++) {
 System.out.println(java.util.Arrays.deepToString(copy));
 ```
 
-二维数组内容比较可用 `Arrays.deepEquals`；普通 Arrays.equals 对内层数组比较的是引用。
+二维数组内容比较可用 `Arrays.deepEquals`；普通 `Arrays.equals` 对内层数组比较的是引用。
+
+### 易错点
+
+- `Arrays.copyOf(a, a.length)` 对二维数组只复制外层，不会自动复制每一行。
+- `b[i][j] = value` 会修改共享的行对象；`b[i] = new int[...] ` 只会替换 `b` 外层数组中的一个引用。
+- 判断是否共享可分别检查：`a == b` 比较外层，`a[i] == b[i]` 比较第 i 行。
 
 ## 读取固定宽度的 0/1 网格
 
