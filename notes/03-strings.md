@@ -52,6 +52,39 @@ int math = Integer.parseInt(parts[1]); // 把 "90" 转成 90
 
 `Integer.parseInt` 遇到非整数文本或超出 int 范围的文本会抛出 `NumberFormatException`，与 Scanner 的 `InputMismatchException` 不同。
 
+## 用 charAt 读取数字字符
+
+字符数字可以通过减去字符 `'0'` 转成对应的整数：
+
+```java
+char ch = '7';
+int value = ch - '0'; // 7
+```
+
+这是因为字符在计算时会使用字符编码值，`'7'` 与 `'0'` 的编码差正好是 7。读取一整行 0/1 网格时，应先验证字符，再转换：
+
+```java
+boolean valid = line.length() == cols;
+for (int j = 0; valid && j < cols; j++) {
+    char ch = line.charAt(j);
+    if (ch != '0' && ch != '1') {
+        valid = false;
+    }
+}
+
+if (valid) {
+    for (int j = 0; j < cols; j++) {
+        board[row][j] = line.charAt(j) - '0';
+    }
+}
+```
+
+### 易错点
+
+- `line.length() == cols` 只检查长度，不保证内容一定是 0 或 1。
+- 对字母等非数字字符直接做 `ch - '0'` 也会得到一个整数，但这个整数没有题目需要的含义。
+- `'0'` 是字符，数值是 0；写成 `ch - 0` 不会完成数字字符转换。
+
 ## StringBuilder：循环中逐步拼接输出
 
 `StringBuilder` 是一个可修改的字符序列。需要在循环里不断追加字符时，可以先把内容放进去，最后一次输出。

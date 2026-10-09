@@ -73,6 +73,38 @@ System.out.println(java.util.Arrays.deepToString(copy));
 
 二维数组内容比较可用 `Arrays.deepEquals`；普通 Arrays.equals 对内层数组比较的是引用。
 
+## 读取固定宽度的 0/1 网格
+
+扫雷等题目常把一行棋盘输入写成字符串。每一行既要检查长度，也要检查字符内容；只有整行合法后才写入数组。
+
+```java
+for (int i = 0; i < rows; i++) {
+    while (true) {
+        String line = sc.next();
+        boolean valid = line.length() == cols;
+
+        for (int j = 0; valid && j < cols; j++) {
+            char ch = line.charAt(j);
+            if (ch != '0' && ch != '1') {
+                valid = false;
+            }
+        }
+
+        if (!valid) {
+            System.out.println("Invalid input");
+            continue;
+        }
+
+        for (int j = 0; j < cols; j++) {
+            board[i][j] = line.charAt(j) - '0';
+        }
+        break;
+    }
+}
+```
+
+先完整验证再保存，可以避免输入到一半才发现错误，导致这一行数组留下部分旧数据。
+
 ## 扫雷：统计一个格子的八个邻居
 
 若约定 `board[i][j] == 1` 表示地雷，非地雷格需要统计周围八个方向的地雷数。可以让行、列偏移量 `di`、`dj` 分别从 -1 到 1。
