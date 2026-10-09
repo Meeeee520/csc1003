@@ -13,6 +13,44 @@ boolean[] seen = new boolean[12]; // 初始都是 false
 下标从 0 到 `a.length - 1`。数组长度是 `a.length`，不是 `a.length()`。
 访问 `a[a.length]` 会越界；引用为 null 时访问数组会出错。
 
+## 为什么数组的 length 不加括号
+
+括号 `()` 表示“调用方法”。Java 数组的 `length` 不是方法，而是数组对象自带的只读字段，所以直接读取：
+
+```java
+int[] numbers = {10, 20, 30};
+int n = numbers.length; // 读取字段，结果是 3
+```
+
+可以把两种写法理解为：
+
+- 字段：对象保存的数据，用 `对象.字段`。
+- 方法：对象提供的操作，用 `对象.方法()`。
+
+Java 对不同类型采用了不同接口：
+
+| 类型 | 获取长度或元素个数 | 原因 |
+| --- | --- | --- |
+| 数组 | `array.length` | `length` 是数组的只读字段 |
+| `String` | `text.length()` | `length()` 是 String 类的方法 |
+| `ArrayList` | `list.size()` | `size()` 是集合的方法 |
+
+```java
+String text = "Java";
+int[] array = {1, 2, 3};
+java.util.ArrayList<Integer> list = new java.util.ArrayList<>();
+
+System.out.println(text.length()); // 4
+System.out.println(array.length);  // 3
+System.out.println(list.size());   // 0
+```
+
+### 易错点
+
+- 写 `array.length()` 会报错，因为数组没有 `length()` 方法。
+- 写 `text.length` 也会报错，因为 String 没有可供这样读取的 `length` 字段。
+- 数组创建后长度固定，因此不能给 `array.length` 重新赋值。
+
 ## 普通遍历与 for-each
 
 ```java

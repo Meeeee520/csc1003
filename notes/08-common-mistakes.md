@@ -42,6 +42,7 @@
 8. 扫雷中检查 `board[i + di][j + dj]` 前，必须先做什么？
 9. `output.append('*')` 会直接在控制台显示星号吗？
 10. 一行输入长度等于列数，能否据此断定它是合法的 0/1 网格？
+11. 为什么数组写 `a.length`，而 String 写 `s.length()`？
 
 <details>
 <summary>答案</summary>
@@ -56,5 +57,6 @@
 8. 计算邻居坐标，并检查行列都没有越界。
 9. 不会；它只把星号追加到 StringBuilder，之后还要输出 builder。
 10. 不能；还要逐个检查每个字符是否为 `'0'` 或 `'1'`。
+11. 数组的 `length` 是只读字段；String 的 `length()` 是方法，括号表示调用方法。
 
 </details>
