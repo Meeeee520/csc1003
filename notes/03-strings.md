@@ -51,3 +51,27 @@ int math = Integer.parseInt(parts[1]); // 把 "90" 转成 90
 ```
 
 `Integer.parseInt` 遇到非整数文本或超出 int 范围的文本会抛出 `NumberFormatException`，与 Scanner 的 `InputMismatchException` 不同。
+
+## StringBuilder：循环中逐步拼接输出
+
+`StringBuilder` 是一个可修改的字符序列。需要在循环里不断追加字符时，可以先把内容放进去，最后一次输出。
+
+```java
+StringBuilder output = new StringBuilder();
+output.append('*');
+output.append(3);
+output.append('\n');
+System.out.print(output);
+```
+
+- `new StringBuilder()` 创建一个空的“文字容器”。
+- `output.append('*')` 把字符 `*` 加到末尾；它不会立刻打印。
+- `append(3)` 会追加字符形式的 `3`，不是进行加法。
+- `append('\n')` 追加换行符。
+- 最后 `print(output)` 时，Java 会输出其中积累的全部内容。
+
+### 易错点
+
+- `'*'` 是一个 `char`，`"*"` 是一个 `String`；两者都能传给 `append`，但类型不同。
+- `StringBuilder` 没有自动换行，需要自己追加 `\n`，或最后用 `println`。
+- 如果每一行都使用同一个 builder，记得在合适位置追加换行；如果只想清空，可用 `output.setLength(0)`。

@@ -73,6 +73,57 @@ System.out.println(java.util.Arrays.deepToString(copy));
 
 二维数组内容比较可用 `Arrays.deepEquals`；普通 Arrays.equals 对内层数组比较的是引用。
 
+## 扫雷：统计一个格子的八个邻居
+
+若约定 `board[i][j] == 1` 表示地雷，非地雷格需要统计周围八个方向的地雷数。可以让行、列偏移量 `di`、`dj` 分别从 -1 到 1。
+
+```java
+static int countAdjacentMines(int[][] board, int i, int j) {
+    int count = 0;
+    for (int di = -1; di <= 1; di++) {
+        for (int dj = -1; dj <= 1; dj++) {
+            if (di == 0 && dj == 0) {
+                continue; // 跳过格子自己
+            }
+
+            int ni = i + di;
+            int nj = j + dj;
+            if (ni >= 0 && ni < board.length
+                    && nj >= 0 && nj < board[ni].length
+                    && board[ni][nj] == 1) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+```
+
+用 `StringBuilder` 生成整个结果网格：
+
+```java
+StringBuilder output = new StringBuilder();
+for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+        if (board[i][j] == 1) {
+            output.append('*');
+        } else {
+            output.append(countAdjacentMines(board, i, j));
+        }
+    }
+    output.append('\n');
+}
+System.out.print(output);
+```
+
+### 易错点
+
+- 必须先检查 `ni`、`nj` 是否越界，再访问 `board[ni][nj]`。
+- `(di, dj) == (0, 0)` 代表当前格子，不应算作邻居。
+- `i`、`j` 是当前格坐标，`ni`、`nj` 才是正在检查的邻居坐标。
+- 每处理一个新格子，都要重新令 `count = 0`。
+- `if` 条件必须写括号：`if (board[i][j] == 1) {`。
+
 ## 补充例题：矩阵乘法的三层循环
 
 A 为 r×k，B 为 k×c 时，结果 C 为 r×c。

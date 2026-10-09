@@ -8,6 +8,11 @@
 | `str == "abc"` | 比较内容用 `str.equals("abc")` |
 | `array.length()` | 数组用 length 属性；String 用 length() |
 | 循环写成 `i <= a.length` | 最后一次越界；用 `i < a.length` |
+| `for (int i = o; ...)` | 字母 `o` 不是数字 `0`；循环通常从 `i = 0` 开始 |
+| `if a[i][j] == 0` | Java 的 if 条件必须放在括号里：`if (a[i][j] == 0)` |
+| 先在 try 外调用 `nextInt()` | 非整数会在进入 try 前抛异常；可能失败的读取应放在 try 内 |
+| 邻域遍历直接访问 `a[ni][nj]` | 先检查 `ni`、`nj` 是否在数组范围内 |
+| `output.append('*')` 会立即打印 | append 只追加内容，最后还要 print/println |
 | `int[] b = a;` 当作复制 | 两个变量引用同一数组 |
 | for-each 中给 value 赋值 | 不会替换原数组元素 |
 | 最小值从 0 开始 | 非空数组通常从第一个元素开始 |
@@ -31,6 +36,8 @@
 5. `nextInt()` 遇到 abc 后，为什么 catch 中需要 next 或 nextLine？
 6. 统计第 j 门课时，scores[i][j] 的 i 应遍历什么？
 7. `int[] b = a;` 后修改 b[0]，a[0] 会变吗？
+8. 扫雷中检查 `board[i + di][j + dj]` 前，必须先做什么？
+9. `output.append('*')` 会直接在控制台显示星号吗？
 
 <details>
 <summary>答案</summary>
@@ -42,5 +49,7 @@
 5. 失败的 token 还在输入流中，需要消费它。
 6. 全部学生。
 7. 会，两者共享同一个数组。
+8. 计算邻居坐标，并检查行列都没有越界。
+9. 不会；它只把星号追加到 StringBuilder，之后还要输出 builder。
 
 </details>
