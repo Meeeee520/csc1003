@@ -21,6 +21,8 @@
 | 最小值从 0 开始 | 非空数组通常从第一个元素开始 |
 | nextInt 后直接 nextLine | 可能读到行尾剩余内容 |
 | catch 不消费错误输入 | 下一轮可能再次遇到同一个 token |
+| 以为 nextInt 会跳过 abc 去找后面的整数 | 非整数 token 会让读取失败，且该 token 不会被消费 |
+| 把 nextLine 返回的 `""` 当成 null | 空字符串是长度为 0 的对象；null 表示没有对象 |
 | 空行 split 后长度为 1，就认为有效 | 先 trim 并检查 isEmpty |
 | 输入 `3.0` 期待 nextInt 接收 | 数学整数与整数格式输入不同 |
 | `True` / `FALSE` | Java 只认小写 true / false |
@@ -43,6 +45,9 @@
 9. `output.append('*')` 会直接在控制台显示星号吗？
 10. 一行输入长度等于列数，能否据此断定它是合法的 0/1 网格？
 11. 为什么数组写 `a.length`，而 String 写 `s.length()`？
+12. 输入是 `abc 25` 时，`nextInt()` 会跳过 abc 直接读取 25 吗？
+13. `nextLine()` 在当前位置紧邻换行符时返回 `""`，这是 null 吗？
+14. `System.out.println(sc.nextInt())` 中调用了几次 `nextInt()`？
 
 <details>
 <summary>答案</summary>
@@ -58,5 +63,8 @@
 9. 不会；它只把星号追加到 StringBuilder，之后还要输出 builder。
 10. 不能；还要逐个检查每个字符是否为 `'0'` 或 `'1'`。
 11. 数组的 `length` 是只读字段；String 的 `length()` 是方法，括号表示调用方法。
+12. 不会；它在 abc 处抛出 `InputMismatchException`，且不消费 abc。
+13. 不是；这是一个长度为 0 的 String 对象。
+14. 一次；该调用读取并返回整数，`println` 打印返回值。
 
 </details>

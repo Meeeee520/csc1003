@@ -55,6 +55,22 @@ public class ReadInteger {
 例如一行是 `abc 20`：next 只清除 abc，下一次可能读到 20；nextLine 会连同 20 一起丢弃。
 选择哪一种取决于题目按 token 还是按整行输入。
 
+### nextInt 不会跳过非法 token
+
+`nextInt()` 会跳过空白去查看下一个 token，但不会跳过一个无法解析为整数的非空白 token。遇到 `abc` 时，它在 `abc` 处失败并抛异常；必须由 catch 中的 `next()` 或 `nextLine()` 清理输入。
+
+```java
+Scanner sc = new Scanner("abc 25\n40\n");
+try {
+    sc.nextInt();       // 在 abc 处失败；没有读到 25 或 40
+} catch (InputMismatchException e) {
+    sc.nextLine();      // 丢弃 abc、25 和本行换行
+}
+int value = sc.nextInt(); // 读取 40
+```
+
+注意：`System.out.println(sc.nextInt())` 仍然只调用一次 `nextInt()`。这一次调用先读取并返回整数，`println` 再打印这个返回值。
+
 ## 不使用异常的写法
 
 ```java

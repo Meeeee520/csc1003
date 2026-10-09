@@ -28,6 +28,32 @@ s = s.toUpperCase(); // s 现在引用 HELLO
 比较字符串内容用 `equals`，`==` 比较引用是否相同。
 `" ".isEmpty()` 为 false，因为它包含一个空格。
 
+## 空字符串和 null 不一样
+
+空字符串 `""` 是一个真实存在的 String 对象，只是其中没有字符：
+
+```java
+String empty = "";
+System.out.println(empty.length());  // 0
+System.out.println(empty.isEmpty()); // true
+```
+
+`null` 表示变量没有引用任何 String 对象：
+
+```java
+String missing = null;
+// missing.length(); // 会抛出 NullPointerException
+```
+
+当 Scanner 的读取位置正好在换行符前时，`nextLine()` 会返回空字符串 `""`，因为“当前位置到行末”确实没有字符。它不会返回 `null`。如果已经没有下一行，`nextLine()` 会抛出 `NoSuchElementException`；可先用 `hasNextLine()` 检查。
+
+### 易错点
+
+- `""`：对象存在，长度为 0，可以调用 `isEmpty()`。
+- `" "`：含一个空格，不是空字符串；`trim()` 后才会变成 `""`。
+- `null`：没有对象，不能直接调用 String 方法。
+- 判断可能为 null 的字符串时，应先检查：`s != null && !s.isEmpty()`。
+
 ## 成绩报告中用到的 trim 与 split
 
 ```java

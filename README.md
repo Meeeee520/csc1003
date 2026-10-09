@@ -9,9 +9,9 @@ csc1003课程中遇到的不会的知识点
 
 | 顺序 | 文件 | 主要内容 |
 | --- | --- | --- |
-| 1 | [输入输出与 Scanner](notes/01-input-output-scanner.md) | next/nextLine、换行残留、printf |
+| 1 | [输入输出与 Scanner](notes/01-input-output-scanner.md) | token/整行、读取位置、换行残留、printf |
 | 2 | [类型与运算](notes/02-types-and-operators.md) | 整数除法、强转、拼接、浮点数 |
-| 3 | [字符串](notes/03-strings.md) | String 方法、拆分、StringBuilder、append |
+| 3 | [字符串](notes/03-strings.md) | String 方法、空字符串与 null、拆分、StringBuilder |
 | 4 | [输入验证与循环](notes/04-validation-and-control-flow.md) | 1–100 整数、try/catch、break/continue |
 | 5 | [一维数组](notes/05-arrays-basics.md) | 遍历、统计、复制、随机模拟 |
 | 6 | [二维数组](notes/06-two-dimensional-arrays.md) | 行列、嵌套循环、八邻域、扫雷 |

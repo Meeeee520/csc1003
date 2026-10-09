@@ -42,6 +42,34 @@ String name = sc.nextLine();
 
 这适用于“整数单独占一行，姓名在下一行”。若输入为 `12 apple`，读完 12 后 `nextLine()` 得到的是 `" apple"`；直接丢弃它也会丢掉 apple。
 
+## Scanner 的 token、行和读取位置
+
+可以把 Scanner 想成有一个“光标”，每次读取都会从当前位置开始。
+
+- `nextInt()` 先查看下一个 token；能解析为 int 才消费它。
+- 如果下一个 token 是 `abc`，`nextInt()` 抛出 `InputMismatchException`，而且不消费 `abc`。
+- `next()` 消费一个 token。
+- `nextLine()` 消费当前位置到本行末尾的全部内容，并越过该行的换行符。
+- 这些方法不会凭空多读一次；每出现一次方法调用，才进行一次读取尝试。
+
+逐步追踪：
+
+```java
+Scanner sc = new Scanner("oops 25\n40\n");
+
+try {
+    sc.nextInt();
+} catch (InputMismatchException e) {
+    sc.nextLine();
+}
+System.out.println(sc.nextInt());
+```
+
+1. try 中的 `nextInt()` 看见 `oops`，读取失败并抛异常；它没有读到 25 或 40。
+2. catch 中的 `nextLine()` 丢弃当前行剩余的 `oops 25`，并越过第一个换行。
+3. `System.out.println(sc.nextInt())` 里的 `nextInt()` 才读取下一行的 40。
+4. 这个 40 同时作为 `println` 的参数，所以打印 40；并不存在额外的一次读取。
+
 ## 输出方法
 
 ```java
