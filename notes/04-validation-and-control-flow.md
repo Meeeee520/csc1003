@@ -119,6 +119,41 @@ public class ReadFile {
 - 当前方法无法合理处理，想交给调用者决定：在方法声明中写 `throws IOException`。
 - `throws` 只是把处理责任向上传递，并不会让异常消失。
 
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class SaveFile {
+    static void save(String text) throws IOException {
+        Files.writeString(Path.of("data.txt"), text);
+    }
+
+    public static void main(String[] args) {
+        try {
+            save("hello");
+        } catch (IOException e) {
+            System.out.println("保存失败：" + e.getMessage());
+        }
+    }
+}
+```
+
+这里 `save` 不处理文件写入错误，而是用 `throws IOException` 交给调用它的 `main`；`main` 再用 `catch` 真正处理。`IOException` 属于受检异常，调用者必须继续声明 `throws` 或使用 `try-catch`。
+
+### `throw` 和 `throws` 不是一回事
+
+- `throws IOException` 写在方法声明中，说明方法**可能**把这种异常交给调用者。
+- `throw new IllegalArgumentException("...")` 写在方法体中，表示现在**主动抛出一个具体异常对象**。
+
+```java
+static void setAge(int age) {
+    if (age < 0) {
+        throw new IllegalArgumentException("age 不能为负数");
+    }
+}
+```
+
 ### 易错点
 
 - `InputMismatchException` 表示 Scanner 读到的 token 格式不匹配，不属于 `IOException`。
