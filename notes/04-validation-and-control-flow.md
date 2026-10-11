@@ -90,6 +90,41 @@ while (sc.hasNext()) {
 
 此段演示判断流程；a 的作用域只在循环体内。如果循环外需要 a，应在循环前声明，并考虑输入结束却未获得有效值的情况。
 
+## `Exception` 和 `IOException` 怎么选？
+
+`Exception` 是许多异常的父类，范围很大；`IOException` 是它的子类，专门表示读取或写入文件、流、网络数据时发生的输入输出错误。
+
+原则是：**捕获自己能够处理的最具体异常**。文件读取 API 声明会抛出 `IOException` 时，就捕获 `IOException`；不要因为不清楚错误类型就一律写 `catch (Exception e)`，否则可能把程序中的其他错误也一起隐藏。
+
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class ReadFile {
+    public static void main(String[] args) {
+        try {
+            String text = Files.readString(Path.of("data.txt"));
+            System.out.println(text);
+        } catch (IOException e) {
+            System.out.println("文件读取失败：" + e.getMessage());
+        }
+    }
+}
+```
+
+### `catch` 还是 `throws`？
+
+- 当前方法知道怎样恢复或提示用户：使用 `catch` 处理。
+- 当前方法无法合理处理，想交给调用者决定：在方法声明中写 `throws IOException`。
+- `throws` 只是把处理责任向上传递，并不会让异常消失。
+
+### 易错点
+
+- `InputMismatchException` 表示 Scanner 读到的 token 格式不匹配，不属于 `IOException`。
+- 同一个 try 有多个 catch 时，子类要写在父类前面；`catch (Exception e)` 放在 `catch (IOException e)` 前面会导致后者无法到达，编译失败。
+- 只在程序最外层确实需要统一记录或终止时才考虑捕获 `Exception`，并且不要悄悄忽略异常。
+
 ## break、continue 与循环层级
 
 - `break`：结束最近的一层循环。
