@@ -54,6 +54,29 @@ int x = (int) 3.9; // 3，截掉小数，不是四舍五入
 涉及近似计算时可按题目精度用 `Math.abs(a - b) < epsilon` 比较。
 `printf("%.2f", value)` 只改变显示格式，不改变 value 本身。
 
+### 保留两位小数：显示格式和数值处理不同
+
+如果要求输出固定两位小数，最直接的是使用格式化输出：
+
+```java
+double average = 3.1;
+System.out.printf("Average: %.2f%n", average); // Average: 3.10
+String text = String.format("%.2f", average); // "3.10"
+```
+
+- `printf` 直接输出格式化结果，`%n` 表示换行。
+- `String.format` 返回一个新的 String，适合先保存、之后再使用。
+- `%.2f` 会按两位小数显示：位数不足时补 0，位数超过时按格式化规则舍入。
+- 两种写法都不会改变 `average` 原来的值。
+
+如果后续计算需要一个舍入后的数值，可以写：
+
+```java
+double rounded = Math.round(average * 100) / 100.0;
+```
+
+易错点：`Math.round` 得到的是数值，不负责固定显示位数。普通输出时，`3.10` 仍可能显示成 `3.1`；需要固定两位时仍应使用 `printf` 或 `String.format`。浮点数仍采用二进制近似存储，不适合直接替代精确的金额计算。
+
 ### 算式里出现 `double` 后，结果也是 `double`
 
 ```java
