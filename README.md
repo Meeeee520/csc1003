@@ -3,15 +3,15 @@ csc1003课程中遇到的不会的知识点
 
 ## Java 复习笔记
 
-根据 ChatGPT 项目「计算机知识点复习」中可检索的讨论与数组总结整理，更新日期：2026-10-09。
+根据 ChatGPT 项目「计算机知识点复习」中可检索的讨论与数组总结整理，更新日期：2026-10-12。
 采用“概念 → 示例 → 易错点”的方式，合并重复提问并修正容易误解的表述。
 
 
 | 顺序 | 文件 | 主要内容 |
 | --- | --- | --- |
 | 1 | [输入输出与 Scanner](notes/01-input-output-scanner.md) | token/整行、读取位置、换行残留、printf |
-| 2 | [类型与运算](notes/02-types-and-operators.md) | 整数除法、强转、拼接、浮点数 |
-| 3 | [字符串](notes/03-strings.md) | String 方法、空字符串与 null、拆分、StringBuilder |
+| 2 | [类型与运算](notes/02-types-and-operators.md) | 整数除法、强转、两位小数、浮点数 |
+| 3 | [字符串](notes/03-strings.md) | String 方法、trim/strip、不可变性、StringBuilder |
 | 4 | [输入验证与循环](notes/04-validation-and-control-flow.md) | 1–100 整数、try/catch、break/continue |
 | 5 | [一维数组](notes/05-arrays-basics.md) | for-each、统计、复制、随机模拟 |
 | 6 | [二维数组](notes/06-two-dimensional-arrays.md) | 行列、浅拷贝、八邻域、扫雷 |
