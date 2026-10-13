@@ -141,6 +141,46 @@ public class SaveFile {
 
 这里 `save` 不处理文件写入错误，而是用 `throws IOException` 交给调用它的 `main`；`main` 再用 `catch` 真正处理。`IOException` 属于受检异常，调用者必须继续声明 `throws` 或使用 `try-catch`。
 
+### 可以用 `throws Exception` 解决所有错误吗？
+
+语法上可以把方法声明写成 `throws Exception`。因为 `IOException`、`NumberFormatException` 等都是 `Exception` 的子类，这个声明允许这些异常继续传给调用者：
+
+```java
+static void load() throws Exception {
+    // 方法中的 Exception 子类可以继续向上传递
+}
+```
+
+但它不等于“解决了所有错误”：
+
+- `throws` 只是声明并传递异常，没有真正处理异常。
+- `Exception` 不包含 `Error`，例如 `OutOfMemoryError`、`StackOverflowError`。
+- 拼写、类型不匹配等编译错误也不是运行时的 `Exception`，不能靠 `throws Exception` 修复。
+- 声明过宽会让调用者不知道真正可能发生什么，也可能掩盖设计问题。
+
+因此，文件读写明确可能抛出 `IOException` 时，优先写 `throws IOException`；只有方法确实可能传出多种无法在此处理的受检异常时，才考虑更宽的声明。
+
+### `Exception` 后面的 `e` 是什么？
+
+准确的类名是 `Exception` 和 `IOException`，类名本身后面都没有额外的 `e`。Java 区分大小写：
+
+```java
+void load() throws IOException { }
+
+try {
+    load();
+} catch (IOException e) {
+    System.out.println(e.getMessage());
+}
+```
+
+- `throws IOException`：只写异常类型，不写变量名。
+- `catch (IOException e)`：`IOException` 是类型，`e` 是接住异常对象的变量名。
+- 变量名可以改成 `error`，例如 `catch (IOException error)`。
+- 正确大小写是 `Exception`、`IOException`，不是 `exception` 或 `Ioexception`。
+
+记忆：**`throws` 后面写类型；`catch` 括号中写“类型 + 变量名”。**
+
 ### `throw` 和 `throws` 不是一回事
 
 - `throws IOException` 写在方法声明中，说明方法**可能**把这种异常交给调用者。
