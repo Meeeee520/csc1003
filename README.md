@@ -18,6 +18,7 @@ csc1003课程中遇到的不会的知识点
 | 7 | [成绩报告练习](notes/07-grade-report.md) | 输入解析、按科目统计、代码修正 |
 | 8 | [易错点与自测](notes/08-common-mistakes.md) | 常见错误对照与自测答案 |
 | 9 | [包与 import](notes/09-packages-and-imports.md) | 包名、单类导入、通配符、全限定名 |
+| 10 | [方法参数与值传递](notes/10-methods-and-parameters.md) | 实参与形参、基本类型、数组引用、作用域 |
 
 ## 可运行示例
 
