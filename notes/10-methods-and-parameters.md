@@ -104,6 +104,49 @@ public static void main(String[] args) {
 
 真正改变 `main` 中 `a` 的是 `a = change(a)` 这次赋值。
 
+## 返回值、void 与职责分离
+
+方法声明中的返回类型决定调用表达式能不能产生一个值：
+
+- `double` 方法必须返回一个可转换为 `double` 的值，调用者可以接收或继续使用它。
+- `void` 表示方法不返回结果，因此不能把它赋给变量。
+- `System.out.println(...)` 只是把内容显示到控制台，不会把打印的内容变成方法返回值。
+
+例如，只把“计算平均值”提取为方法，并把打印保留在 `main`：
+
+```java
+public class AverageDemo {
+    static double calculateAverage(int[] scores) {
+        int total = 0;
+        for (int score : scores) {
+            total += score;
+        }
+        return (double) total / scores.length;
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {80, 90, 100};
+        double average = calculateAverage(scores);
+        System.out.println("Average: " + average);
+    }
+}
+```
+
+这里的流程是：
+
+1. `main` 把数组引用值传给 `calculateAverage`。
+2. 方法完成求和与平均值计算，并用 `return` 把结果交回调用处。
+3. `main` 保存返回值并负责打印。
+
+如果方法声明为 `void`，就不能写 `double average = calculateAverage(scores);`，因为右侧没有值可以赋给 `average`。如果方法内部直接打印，虽然可能看到相同文字，却没有满足“打印保留在 `main`”的设计要求，也降低了方法的复用性：其他代码无法直接取得平均值做比较或后续计算。
+
+### 易错点
+
+- “打印结果”和“返回结果”是两件事：`println` 负责显示，`return` 负责把值传给调用者。
+- 返回类型必须与实际用途匹配；平均值可能有小数，应返回 `double`，而不是 `int`。
+- 抽取方法时要遵守题目规定的职责边界；若只要求抽取计算，就不要顺便把输出也移入方法。
+- 方法自己的局部变量（如 `total`）应留在方法内部，调用者只需要关心参数和返回值。
+
 ## 易错点
 
 - Java 的方法参数永远是值传递。
