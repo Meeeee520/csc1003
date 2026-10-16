@@ -1,4 +1,4 @@
-# 01 输入输出与 Scanner
+# 01 输入输出、Scanner 与 Reader
 
 ## 程序的基本结构
 
@@ -69,6 +69,75 @@ System.out.println(sc.nextInt());
 2. catch 中的 `nextLine()` 丢弃当前行剩余的 `oops 25`，并越过第一个换行。
 3. `System.out.println(sc.nextInt())` 里的 `nextInt()` 才读取下一行的 40。
 4. 这个 40 同时作为 `println` 的参数，所以打印 40；并不存在额外的一次读取。
+
+## `FileReader` 读取的是文件，还是字符串？
+
+### 概念
+
+`FileReader` 的构造器可以接收一个 `String`，但这个字符串表示**文件名或文件路径**，不是要读取的文本内容。
+
+```java
+String f = "data.txt";
+FileReader reader = new FileReader(f);
+```
+
+上面的代码会尝试打开名为 `data.txt` 的文件。变量 `f` 只是保存路径；`FileReader` 随后从这个文件读取字符。如果文件不存在，会抛出 `FileNotFoundException`。
+
+如果要把内存中已有的字符串当作字符流读取，应使用 `StringReader`：
+
+```java
+String text = "ABC\nDEF";
+StringReader reader = new StringReader(text);
+```
+
+二者都属于字符输入体系，可以交给 `BufferedReader` 包装，再使用 `readLine()` 按行读取：
+
+| 写法 | 真正的数据来源 |
+| --- | --- |
+| `new FileReader("data.txt")` | 磁盘中的 `data.txt` 文件 |
+| `new StringReader("data.txt")` | 字符串本身的八个字符 `data.txt` |
+| `new BufferedReader(reader)` | 不改变数据来源，只增加按行读取等功能 |
+
+### 示例
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringReader;
+
+public class ReaderDemo {
+    static void showFile(String fileName) throws IOException {
+        try (BufferedReader br =
+                     new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        String text = "ABC\nDEF";
+        try (BufferedReader br =
+                     new BufferedReader(new StringReader(text))) {
+            System.out.println(br.readLine()); // ABC
+            System.out.println(br.readLine()); // DEF
+            System.out.println(br.readLine()); // null：已经读到末尾
+        }
+    }
+}
+```
+
+`BufferedReader.readLine()` 从当前数据源读取一行，并把这一行作为 `String` 返回。返回类型是 `String`，不代表数据源一定是字符串；数据源仍由里面包装的 `FileReader` 或 `StringReader` 决定。
+
+### 易错点
+
+- `new FileReader(f)` 不会读取变量 `f` 保存的文本内容，而会把它解释为文件路径。
+- `BufferedReader` 是包装器，不会把文件自动变成字符串来源。
+- `readLine()` 遇到输入末尾返回 `null`；读到真正的空行时返回 `""`，二者不同。
+- `readLine()` 返回的字符串不包含行尾换行符。
+- 文件读取可能抛出 `IOException`，应使用 `try-catch` 处理，或在方法上声明 `throws IOException`。
 
 ## 输出方法
 
