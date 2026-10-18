@@ -181,19 +181,98 @@ System.out.print(output);
 - 每处理一个新格子，都要重新令 `count = 0`。
 - `if` 条件必须写括号：`if (board[i][j] == 1) {`。
 
-## 补充例题：矩阵乘法的三层循环
+## 矩阵乘法：一行乘一列
 
-A 为 r×k，B 为 k×c 时，结果 C 为 r×c。
+### 概念：什么时候可以相乘？
+
+若 A 是 \(m × n\) 矩阵，B 是 \(n × p\) 矩阵，那么二者可以相乘，结果 C 是 \(m × p\) 矩阵：
+
+```text
+A 的列数 = B 的行数
+C 的行数 = A 的行数
+C 的列数 = B 的列数
+```
+
+C 中的一个元素来自“A 的一整行”和“B 的一整列”对应相乘再求和：
+
+\[
+C[\text{row}][\text{col}]
+= \sum_{\text{idx}=0}^{n-1}
+A[\text{row}][\text{idx}] \times B[\text{idx}][\text{col}]
+\]
+
+### 示例：\(2 × 3\) 乘 \(3 × 2\)
+
+```text
+A = 1 2 3       B =  7  8
+    4 5 6            9 10
+                    11 12
+```
+
+结果 C 有 2 行 2 列。左上角元素为：
+
+```text
+C[0][0] = 1×7 + 2×9 + 3×11 = 58
+```
+
+四个位置都计算后：
+
+```text
+C =  58  64
+    139 154
+```
+
+### 三层循环分别做什么？
 
 ```java
-int[][] result = new int[r][c];
-for (int i = 0; i < r; i++) {
-    for (int j = 0; j < c; j++) {
-        for (int t = 0; t < k; t++) {
-            result[i][j] += A[i][t] * B[t][j];
+static int[][] multiply(int[][] a, int[][] b) {
+    int m = a.length;
+    int n = a[0].length;
+    int p = b[0].length;
+
+    if (b.length != n) {
+        throw new IllegalArgumentException("矩阵尺寸不匹配");
+    }
+
+    int[][] c = new int[m][p];
+
+    for (int cRow = 0; cRow < m; cRow++) {
+        for (int cCol = 0; cCol < p; cCol++) {
+            for (int idx = 0; idx < n; idx++) {
+                c[cRow][cCol] += a[cRow][idx] * b[idx][cCol];
+            }
         }
     }
+    return c;
 }
 ```
 
-最内层把 A 的第 i 行与 B 的第 j 列对应元素相乘再累加。此例假定矩阵尺寸匹配且元素计算不溢出。
+- `cRow`：选择结果 C 的哪一行，同时选择 A 的同一行。
+- `cCol`：选择结果 C 的哪一列，同时选择 B 的同一列。
+- `idx`：沿着 A 的这一行和 B 的这一列同步移动，取出一对数相乘并累加。
+- `c[cRow][cCol]` 初始为 0；内层循环结束后，一个结果位置才计算完成。
+
+可以把循环顺序记成：
+
+```text
+先选 C 的位置 → 再把 A 的一行与 B 的一列配对累加
+```
+
+### 乘加次数与时间复杂度
+
+对于 \(m × n\) 的 A 和 \(n × p\) 的 B：
+
+- C 有 \(m × p\) 个位置；
+- 每个位置需要进行 n 次乘加；
+- 总乘加次数是 \(m × p × n\)；
+- 时间复杂度是 \(O(mnp)\)。
+
+上面的示例需要 \(2 × 2 × 3 = 12\) 次乘加。若两个输入都是 \(N × N\) 方阵，三个循环都执行 N 次，因此时间复杂度为 \(O(N^3)\)。
+
+### 易错点
+
+- 不是任意两个二维数组都能相乘；必须满足 A 的列数等于 B 的行数。
+- `idx` 不是结果矩阵的新维度，它只负责完成一个结果元素的累加。
+- `a[cRow][idx]` 取 A 的一行，`b[idx][cCol]` 取 B 的一列；下标位置不能交换。
+- 不要在 `idx` 循环内部把 `c[cRow][cCol]` 重新设为 0，否则之前的累加会丢失。
+- \(O(N^3)\) 是方阵的简写；非方阵更准确地写成 \(O(mnp)\)。
