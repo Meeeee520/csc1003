@@ -147,6 +147,32 @@ public class AverageDemo {
 - 抽取方法时要遵守题目规定的职责边界；若只要求抽取计算，就不要顺便把输出也移入方法。
 - 方法自己的局部变量（如 `total`）应留在方法内部，调用者只需要关心参数和返回值。
 
+## `main` 与 `static` 方法
+
+程序入口是：
+
+```java
+public static void main(String[] args)
+```
+
+`main` 是静态方法。从 `main` 直接调用同一个类中的辅助方法时，该方法通常也要声明为 `static`：
+
+```java
+public class StaticDemo {
+    static int square(int x) {
+        return x * x;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(square(5)); // 25
+    }
+}
+```
+
+如果辅助方法不是 `static`，它属于对象，必须先创建对象，再通过对象调用。
+
+易错点：`static` 不表示“任何地方都能访问”。能否访问还受访问修饰符和作用域影响；这里只说明静态方法可以不依赖对象实例而调用。
+
 ## 易错点
 
 - Java 的方法参数永远是值传递。

@@ -10,7 +10,7 @@ csc1003课程中遇到的不会的知识点
 | 顺序 | 文件 | 主要内容 |
 | --- | --- | --- |
 | 1 | [输入输出、Scanner 与 Reader](notes/01-input-output-scanner.md) | token/整行、读取位置、FileReader/StringReader、printf |
-| 2 | [类型与运算](notes/02-types-and-operators.md) | 整数除法、强转、前置/后置自增、两位小数、浮点数 |
+| 2 | [类型与运算](notes/02-types-and-operators.md) | 整数除法、强转、短路求值、整数溢出、前置/后置自增 |
 | 3 | [字符串](notes/03-strings.md) | String 方法、trim/strip、不可变性、StringBuilder |
 | 4 | [输入验证与循环](notes/04-validation-and-control-flow.md) | 1–100 整数、异常层级、try/catch/throws、循环控制 |
 | 5 | [一维数组](notes/05-arrays-basics.md) | for-each、统计、复制、随机模拟 |
@@ -18,7 +18,7 @@ csc1003课程中遇到的不会的知识点
 | 7 | [成绩报告练习](notes/07-grade-report.md) | 输入解析、按科目统计、代码修正 |
 | 8 | [易错点与自测](notes/08-common-mistakes.md) | 常见错误对照与自测答案 |
 | 9 | [包与 import](notes/09-packages-and-imports.md) | 包名、单类导入、通配符、全限定名 |
-| 10 | [方法参数与值传递](notes/10-methods-and-parameters.md) | 实参与形参、return/void、值传递、作用域 |
+| 10 | [方法参数与值传递](notes/10-methods-and-parameters.md) | 实参与形参、return/void、static、值传递、作用域 |
 | 11 | [期中综合：程序追踪、命令行与 LFSR](notes/11-midterm-program-tracing.md) | 编译运行、命令行参数、循环追踪、二进制、LFSR、JVM、重定向 |
 
 ## 可运行示例
