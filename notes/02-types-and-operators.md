@@ -1,22 +1,38 @@
 # 02 类型、运算与字符串拼接
 
-## int 的大小与范围
+## 八种基本类型的大小
 
-Java 的 `int` 固定是 **32 位（4 字节）**的有符号整数，不会因为电脑是 32 位还是 64 位而改变。
+Java 基本类型的位数由语言规范固定，不会因为电脑是 32 位还是 64 位而改变。1 字节等于 8 位。
+
+| 类型 | 位数 | 字节数 | 说明 |
+| --- | ---: | ---: | --- |
+| `byte` | 8 | 1 | 有符号整数，范围 `-128` 到 `127` |
+| `short` | 16 | 2 | 有符号整数 |
+| `int` | 32 | 4 | 有符号整数，范围 `-2^31` 到 `2^31 - 1` |
+| `long` | 64 | 8 | 有符号整数，字面量常加 `L` |
+| `float` | 32 | 4 | IEEE 754 单精度浮点数，字面量常加 `F` |
+| `double` | 64 | 8 | IEEE 754 双精度浮点数，Java 小数的默认类型 |
+| `char` | 16 | 2 | 无符号 UTF-16 代码单元，范围 `'\\u0000'` 到 `'\\uffff'` |
+| `boolean` | 规范未规定固定大小 | 规范未规定 | 只有 `true` 和 `false` |
+
+可以用包装类提供的常量查看多数基本类型的固定大小：
 
 ```java
-int score = 100;
-System.out.println(Integer.BYTES);     // 4
-System.out.println(Integer.SIZE);      // 32
-System.out.println(Integer.MIN_VALUE); // -2147483648
-System.out.println(Integer.MAX_VALUE); // 2147483647
+System.out.println(Integer.BYTES);  // 4
+System.out.println(Integer.SIZE);   // 32
+System.out.println(Double.BYTES);   // 8
+System.out.println(Double.SIZE);    // 64
+System.out.println(Character.SIZE); // 16
 ```
 
-- 1 字节等于 8 位，因此 32 位等于 4 字节。
-- `int` 的范围是 `-2^31` 到 `2^31 - 1`。
-- 超出范围继续运算可能发生溢出；Java 不会自动改用 `long`。
+`double` 的 64 位通常按 IEEE 754 binary64 划分为：1 位符号、11 位指数和 52 位小数部分（fraction）。它表示的是二进制近似值，因此位数多不等于所有小数都能被精确存储。
 
-易错点：`int` 变量的值即使很小，类型仍占 4 字节。Java 规定的是类型宽度，不是“当前数值需要几位”。
+易错点：
+
+- `boolean` 是基本类型，但 Java 语言规范没有规定它一定占多少 bit；考试若问“Java 规定的大小”，不要武断写成 1 bit 或 1 byte。
+- `String` 不是基本类型，而是引用类型，不能放进这张固定大小表。
+- 变量中的数值即使很小，类型大小也不会缩小，例如 `int n = 1;` 的 `int` 仍是 32 位。
+- 整数超出类型范围继续运算可能发生溢出；Java 不会自动改用更大的整数类型。
 
 ## 先算右边，再赋给左边
 
