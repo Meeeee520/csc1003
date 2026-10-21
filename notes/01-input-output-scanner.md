@@ -20,6 +20,34 @@ public class Main {
 - 局部变量使用前必须赋值。数组元素的默认值与局部变量不同。
 - public 类名 Main 对应文件名 Main.java。语句通常以分号结束，代码块用大括号。
 
+## 标准输入与 System.in
+
+**Standard input（标准输入）**是程序读取数据的默认输入流。在终端中运行程序时，它通常连接键盘；Java 用 `System.in` 表示这个输入流。
+
+```java
+Scanner sc = new Scanner(System.in);
+int age = sc.nextInt();
+```
+
+这里各部分的职责不同：
+
+- `System.in`：数据来源，即标准输入流。
+- `Scanner`：把输入流包装成更方便的读取工具。
+- `nextInt()`：让 Scanner 从当前位置读取并解析一个整数。
+
+标准输入不一定永远来自键盘。例如运行 `java Main < data.txt` 时，程序仍从 `System.in` 读取，但数据被操作系统从文件重定向进来。
+
+与它对应的还有：
+
+- `System.out`：标准输出，通常显示在终端。
+- `System.err`：标准错误输出，通常也显示在终端，但可与普通输出分开重定向。
+
+易错点：
+
+- `System.in` 是字段，不是方法，不能写成 `System.in()`。
+- `new Scanner(System.in)` 没有把 `System.in` 变成 Scanner；它是创建一个 Scanner，内部仍从标准输入流取数据。
+- “标准输入通常是键盘”和“标准输入只能是键盘”不同；重定向后它可以来自文件或其他输入源。
+
 ## 常用输入方法
 
 | 方法 | 读取内容 | 注意 |

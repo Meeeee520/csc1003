@@ -9,7 +9,7 @@ csc1003课程中遇到的不会的知识点
 
 | 顺序 | 文件 | 主要内容 |
 | --- | --- | --- |
-| 1 | [输入输出、Scanner 与 Reader](notes/01-input-output-scanner.md) | token/整行、读取位置、FileReader/StringReader、printf |
+| 1 | [输入输出、Scanner 与 Reader](notes/01-input-output-scanner.md) | 标准输入、token/整行、读取位置、FileReader/StringReader、printf |
 | 2 | [类型与运算](notes/02-types-and-operators.md) | 基本类型位宽、整数除法、强转、短路求值、溢出、自增、字符串拼接 |
 | 3 | [字符串](notes/03-strings.md) | String 方法、trim/strip、不可变性、StringBuilder |
 | 4 | [输入验证与循环](notes/04-validation-and-control-flow.md) | 1–100 整数、异常层级、try/catch/throws、循环控制 |
