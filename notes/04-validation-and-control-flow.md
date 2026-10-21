@@ -200,6 +200,39 @@ static void setAge(int age) {
 - 同一个 try 有多个 catch 时，子类要写在父类前面；`catch (Exception e)` 放在 `catch (IOException e)` 前面会导致后者无法到达，编译失败。
 - 只在程序最外层确实需要统一记录或终止时才考虑捕获 `Exception`，并且不要悄悄忽略异常。
 
+## if、else if 与 else
+
+`else if` 是正确的 Java 语法，两个单词之间要留空格。完整结构可以写成：
+
+```java
+int score = 85;
+
+if (score >= 90) {
+    System.out.println("A");
+} else if (score >= 80) {
+    System.out.println("B");
+} else if (score >= 60) {
+    System.out.println("C");
+} else {
+    System.out.println("Fail");
+}
+```
+
+程序从上到下检查条件。找到第一个为 `true` 的分支后，就执行该分支并跳过整条链后面的分支；上例输出 `B`。
+
+规则：
+
+- 一条链以一个 `if` 开始。
+- `else if` 可以出现零次或多次。
+- `else` 最多出现一次，而且必须放在最后。
+- 每个 `if` 或 `else if` 的条件都必须是 `boolean` 表达式。
+
+易错点：
+
+- Java 不能写成 `elseif`。
+- 多个独立的 `if` 会分别判断，可能执行多个代码块；`if / else if / else` 链最多执行一个分支。
+- 条件顺序很重要。范围更大的条件若放在前面，可能让后面的具体条件永远没有机会执行。
+
 ## break、continue 与循环层级
 
 - `break`：结束最近的一层循环。
